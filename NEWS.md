@@ -1,3 +1,17 @@
+# scaledescr 0.2.5
+* number of function-17
+
+## Improvements
+* Added updated NEWS.md to track change in the pacakge
+* Added README.md for workflow
+* Citation corrected. 
+
+## New Functions
+*`make_noramlity_table()`
+*`make_EFA_factorability_table()`
+*`make_citation_to_output()`
+*`make_correlation_table()`
+
 # scaledescr 0.2.4
 * number of function-13
 
