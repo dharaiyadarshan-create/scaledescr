@@ -169,38 +169,65 @@ make_dataframe_to_output <- function( data,
     openxlsx::write.xlsx(data, file = filepath, rowNames = FALSE)
   }
   else if (format == "pdf") {
+
     if (!requireNamespace("flextable", quietly = TRUE)) {
       stop("Please install the 'flextable' package for PDF export.", call. = FALSE)
     }
 
-    # 1. Initialize and FORCE font to "sans", This is the safest way to avoid the Arial/PostScript error
-    ft <- flextable::flextable(data)
-    ft <- flextable::font(ft, fontname = "sans", part = "all")
-    ft <- flextable::autofit(ft)
+    # ---- Branch condition ----
+    is_citation_df <- all(c("Citation_Text", "BibTeX") %in% names(data))
 
-    # 2. Generate the grob
-    # Using fit = "width" ensures the clinical summary spans the page horizontally
-    # scaling = "min" prevents the text from becoming giant if the table is small
-    table_grob <- flextable::gen_grob(ft, fit = "width", scaling = "min")
+    # ---- Warning early ----
+    if (is_citation_df) {
+      warning(
+        "PDF export for citation tables may render poorly due to long text fields.
+      Consider using format = 'docx' and converting to PDF for better results.",
+        call. = FALSE
+      )
+    }
 
-    # 3. Open the PDF device (A4 dimensions in inches)
+    # ---- Build flextable differently based on data ----
+    if (is_citation_df) {
+      ft <- flextable::flextable(data)
+      ft <- flextable::font(ft, fontname = "sans", part = "all")
+      ft <- flextable::fontsize(ft, size = 7, part = "all")   # smaller text
+      ft <- flextable::autofit(ft)
+
+      # safer grob (avoid layout stress)
+      table_grob <- flextable::gen_grob(ft)
+
+      use_viewport <- FALSE   # 🚨 disable viewport for this case
+
+    } else {
+      ft <- flextable::flextable(data)
+      ft <- flextable::font(ft, fontname = "sans", part = "all")
+      ft <- flextable::autofit(ft)
+
+      table_grob <- flextable::gen_grob(ft, fit = "width", scaling = "min")
+
+      use_viewport <- TRUE
+    }
+
+    # ---- Open PDF ----
     grDevices::pdf(file = filepath, width = 8.27, height = 11.69)
+    grid::grid.newpage()
 
-    # 4. Create the Margin Window (Viewport) ,y = 0.98 and just = "top" keeps it at the very top of the page
-    margin_window <- grid::viewport(
-      width = 0.9,
-      height = 0.9,
-      just = "top",
-      y = 0.98
-    )
-    grid::pushViewport(margin_window)
+    # ---- Conditional drawing ----
+    if (use_viewport) {
+      margin_window <- grid::viewport(
+        width = 0.9,
+        height = 0.9,
+        just = "top",
+        y = 0.98
+      )
+      grid::pushViewport(margin_window)
+      grid::grid.draw(table_grob)
+      grid::popViewport()
+    } else {
+      # safer path (no layout conflict)
+      grid::grid.draw(table_grob)
+    }
 
-
-    # 4. Draw the table onto the PDF page
-    grid::grid.draw(table_grob)
-
-    # 6. Close and save
-    grid::popViewport()
     grDevices::dev.off()
 
   }

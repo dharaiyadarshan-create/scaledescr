@@ -2,15 +2,15 @@
 * number of function-17
 
 ## Improvements
-* Added updated NEWS.md to track change in the pacakge
+* Added updated NEWS.md to track change in the package
 * Added README.md for workflow
 * Citation corrected. 
 
 ## New Functions
-*`make_noramlity_table()`
-*`make_EFA_factorability_table()`
-*`make_citation_to_output()`
-*`make_correlation_table()`
+*`make_normality_table()` — Tests distributional normality for numeric variables and returns a formatted table of test statistics and p-values.
+*`make_EFA_factorability_table()` — make a single row table of KMO and Bartlett's test of sphericity to assess dataset suitability for exploratory factor analysis.
+*`make_citation_to_output()` — Extracts and exports formatted citations (text and BibTeX) for all or selected session packages to a file in word, excel, csv or pdf,with suggestion to use word rather than pdf due to difficulty in text wrapping in pdf.
+*`make_correlation_table()` — make a table of  pairwise correlations with significance indicators and returns a publication-ready table.
 
 # scaledescr 0.2.4
 * number of function-13
