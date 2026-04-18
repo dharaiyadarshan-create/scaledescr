@@ -1,0 +1,6 @@
+#' scaledescr
+#'
+#' Provides helper functions to format and summarise already computed outputs from commonly used statistical and psychometric functions into compact, single-row tables and simple graphs. Functions such as make_scale_description_table(), make_demographic_table(), make_alpha_table(), make_paired_t_test_table(), and make_dataframe_to_output() organise results obtained from existing functions including psych::describe(), psych::alpha(), stats::t.test(), and gtsummary::tbl_summary() for streamlined reporting and export to CSV, Word, and Excel formats. The package does not implement new statistical methods or perform additional estimation.
+#'
+#' @name scaledescr
+NULL
