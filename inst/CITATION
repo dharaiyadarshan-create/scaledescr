@@ -4,10 +4,12 @@ bibentry(
   bibtype = "Manual",
   title   = "Descriptive, Reliability, and Inferential Tables for Psychometric Scales and Demographic Data",
   author  = person(
-    given = "Darshankumar",
-    family = "Dharaiya",
-    comment = c(ORCID = "0009-0009-9351-8602")
+             given = "Darshankumar",
+             family = "Dharaiya",
+             comment = c(ORCID = "0009-0009-9351-8602")
   ),
   year    = "2026",
-  note    = "R package version 0.2.4",
+  note    = "R package version 0.2.7",
+  doi     = "10.32614/CRAN.package.scaledescr",
+  url     = "https://doi.org/10.32614/CRAN.package.scaledescr"
   )
